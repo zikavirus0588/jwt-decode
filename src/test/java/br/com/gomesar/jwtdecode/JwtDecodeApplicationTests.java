@@ -1,4 +1,4 @@
-package br.com.gomesar.jwt_decode;
+package br.com.gomesar.jwtdecode;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

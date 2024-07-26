@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: @project.name@
+  banner:
+    location: classpath:banner.txt
+  profiles:
+    active: '@activatedProperties@'
+info:
+  app:
+    name: ${spring.application.name}
+    description: @project.description@
+    version: @project.version@
+server:
+  port: '8200'
+  servlet:
+    context-path: /${spring.application.name}/api
+swagger:
+  protocol: http
+  base:
+    url: ${swagger.base.host}:${server.port}
+springdoc:
+  swagger-ui:
+    operationSorter: method
+managment:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-detail: always
+      probes:
+        enabled: 'true'
+      group:
+        readiness:
+          include: readinessStrate
+        liveness:
+          include: livenessState
+      server:
+        port: ${server.port}

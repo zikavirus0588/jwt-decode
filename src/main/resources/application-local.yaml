@@ -1,0 +1,4 @@
+swagger:
+  protocol: http
+  base:
+    host: localhost

@@ -1,4 +1,4 @@
-package br.com.gomesar.jwt_decode;
+package br.com.gomesar.jwtdecode;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
