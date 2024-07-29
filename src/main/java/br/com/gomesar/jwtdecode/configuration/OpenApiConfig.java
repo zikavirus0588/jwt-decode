@@ -20,16 +20,16 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .info(
-                        new Info()
-                                .description(
-                                        """
-                                             API to decode and verify JWT Claims.
-                                             Key Features: Decode JWT
-                                        """
-                                )
-                                .version(buildProperties.getVersion())
-                                .title(buildProperties.getName())
-                );
+            .info(
+                new Info()
+                    .description(
+                        """
+                                 API to decode and verify JWT Claims.
+                                 Key Features: Decode JWT
+                            """
+                    )
+                    .version(buildProperties.getVersion())
+                    .title(buildProperties.getName())
+            );
     }
 }

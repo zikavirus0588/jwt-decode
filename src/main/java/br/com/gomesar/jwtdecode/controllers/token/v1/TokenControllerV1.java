@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class TokenControllerV1 implements ITokenControllerV1 {
 
+    public static final String BEARER = "Bearer ";
     private final ITokenService tokenService;
 
     public TokenControllerV1(final ITokenService tokenService) {
@@ -21,7 +22,9 @@ public class TokenControllerV1 implements ITokenControllerV1 {
     @Override
     public AbstractApiResponse<DecodeTokenResponse> decodeToken(final String headerValue) {
         return new AbstractApiResponse.Builder<DecodeTokenResponse>().
-                data(new DecodeTokenResponse.Builder().isValidToken(tokenService.decodeToken(headerValue)).build())
-                .build();
+            data(new DecodeTokenResponse.Builder()
+                .isValidToken(tokenService.decodeToken(headerValue.replace(BEARER, "")))
+                .build())
+            .build();
     }
 }

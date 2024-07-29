@@ -13,10 +13,6 @@ public class AuthorizationHeaderConstraintValidator implements ConstraintValidat
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        if (s == null) {
-            return true;
-        }
-
         final var headerValueSplit = s.split(" ");
 
         if (headerValueSplit.length != 2) {

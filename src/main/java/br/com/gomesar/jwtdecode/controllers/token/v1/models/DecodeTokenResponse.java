@@ -1,7 +1,7 @@
 package br.com.gomesar.jwtdecode.controllers.token.v1.models;
 
 public record DecodeTokenResponse(
-        boolean isValidToken
+    boolean isValidToken
 ) {
     public static class Builder {
         boolean isValidToken;

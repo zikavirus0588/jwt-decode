@@ -6,8 +6,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record AbstractApiResponse<T>(
-        T data
+    T data
 ) {
+    private AbstractApiResponse(final Builder<T> builder) {
+        this(builder.data);
+    }
+
     public static class Builder<T> {
         T data;
 
@@ -17,7 +21,7 @@ public record AbstractApiResponse<T>(
         }
 
         public AbstractApiResponse<T> build() {
-            return new AbstractApiResponse<>(this.data);
+            return new AbstractApiResponse<>(this);
         }
     }
 }
