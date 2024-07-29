@@ -70,7 +70,7 @@ public class ClaimDTOValidator extends AbstractValidator<ClaimsDTO> {
 
     private void roleMustBeOneOfTheAllowedRoles() {
         ruleFor(ClaimsDTO::role)
-            .must(StringPredicate.stringInCollection(ERole.getAllowedRoles()))
+            .must(StringPredicate.stringInCollection(String::toUpperCase, ERole.getAllowedRoles()))
             .when(Predicate.not(nullValue()))
             .withMessage(dto -> bundleMessageService.getMessage(EErrorCode.CLAIM_ROLE_MUST_BE_ONE_OF.code,
                 ERole.getAllowedRoles().toString()))

@@ -15,7 +15,7 @@ public enum ERole {
     }
 
     public static List<String> getAllowedRoles() {
-        return Arrays.stream(values()).map(ERole::getRoleName).toList();
+        return Arrays.stream(values()).map(ERole::name).toList();
     }
 
     public String getRoleName() {
