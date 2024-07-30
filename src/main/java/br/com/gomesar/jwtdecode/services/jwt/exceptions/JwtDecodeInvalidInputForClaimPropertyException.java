@@ -1,9 +1,12 @@
 package br.com.gomesar.jwtdecode.services.jwt.exceptions;
 
+import br.com.gomesar.jwtdecode.commons.models.BusinessLogicError;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.ErrorResponseException;
+
+import java.util.List;
 
 public class JwtDecodeInvalidInputForClaimPropertyException extends ErrorResponseException {
 
@@ -20,8 +23,10 @@ public class JwtDecodeInvalidInputForClaimPropertyException extends ErrorRespons
             "Invalid input for claim property");
         pd.setTitle("Mismatched input when mapping claim to pojo");
         pd.setProperty("isValid", false);
-        pd.setProperty("reason", "JWT claim '" + cause.getPath().get(0).getFieldName() + "' must be of type " +
-            cause.getTargetType().getSimpleName());
+        pd.setProperty("reasons", List.of(new BusinessLogicError.Builder()
+            .message("JWT claim '" + cause.getPath().get(0).getFieldName() + "' must be of type " +
+                     cause.getTargetType().getSimpleName())
+            .build()));
         return pd;
     }
 }

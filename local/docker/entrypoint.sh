@@ -2,4 +2,4 @@
 
 . /etc/profile
 
-java -jar -Djava.security.egd=file:/dev/./urandom ./app.jar
+java -javaagent:/app/elastic-apm-agent.jar -jar -Djava.security.egd=file:/dev/./urandom ./app.jar

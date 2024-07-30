@@ -1,3 +1,9 @@
+im:
+  aop:
+    loggers:
+      enabled: true
+      exited-abnormally-level: ERROR
+      exited-abnormally-message: "o método [{method}] executou e lançou a exceção [{exception}]"
 spring:
   application:
     name: @project.name@
