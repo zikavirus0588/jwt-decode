@@ -11,7 +11,7 @@ info:
     description: @project.description@
     version: @project.version@
 server:
-  port: '8200'
+  port: '8001'
   servlet:
     context-path: /${spring.application.name}/api
 swagger:
@@ -21,7 +21,7 @@ swagger:
 springdoc:
   swagger-ui:
     operationSorter: method
-managment:
+management:
   endpoints:
     web:
       exposure:
@@ -33,7 +33,7 @@ managment:
         enabled: 'true'
       group:
         readiness:
-          include: readinessStrate
+          include: readinessState
         liveness:
           include: livenessState
       server:

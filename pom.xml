@@ -24,6 +24,7 @@
 		<jose4j.version>0.9.6</jose4j.version>
 		<json-path.version>2.9.0</json-path.version>
 		<maven-pmd-plugin.version>3.24.0</maven-pmd-plugin.version>
+		<apm-agent-attach.version>1.37.0</apm-agent-attach.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -64,12 +65,22 @@
 			<artifactId>java-fluent-validator</artifactId>
 			<version>${java-fluent-validator.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt -->
 		<!-- https://mvnrepository.com/artifact/org.bitbucket.b_c/jose4j -->
 		<dependency>
 			<groupId>org.bitbucket.b_c</groupId>
 			<artifactId>jose4j</artifactId>
 			<version>${jose4j.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/co.elastic.apm/elastic-apm-agent -->
+		<dependency>
+			<groupId>co.elastic.apm</groupId>
+			<artifactId>elastic-apm-agent</artifactId>
+			<version>${apm-agent-attach.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>co.elastic.apm</groupId>
+			<artifactId>apm-agent-attach</artifactId>
+			<version>${apm-agent-attach.version}</version>
 		</dependency>
 
 		<dependency>

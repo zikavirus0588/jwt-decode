@@ -28,10 +28,6 @@ public interface ITokenControllerV1 {
             schema = @Schema(implementation = ProblemDetail.class))
     }
     )
-    @ApiResponse(responseCode = "401", description = "Invalid JWT", content = {
-        @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE,
-            schema = @Schema(implementation = ProblemDetail.class))}
-    )
     @ApiResponse(responseCode = "422", description = "Invalid JWT Claims", content = {
         @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE,
             schema = @Schema(implementation = ProblemDetail.class))}

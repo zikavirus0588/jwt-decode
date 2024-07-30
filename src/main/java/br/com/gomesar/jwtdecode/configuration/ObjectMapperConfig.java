@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 @Configuration
-public class CustomObjectMapper {
+public class ObjectMapperConfig {
 
     @Bean
     public ObjectMapper objectMapper() {
