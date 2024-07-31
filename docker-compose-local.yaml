@@ -5,8 +5,6 @@ services:
     container_name: jwt-decode
     build:
       context: .
-      additional_contexts:
-        target: ../../target
       dockerfile: Dockerfile
     environment:
         TZ: America/Sao_Paulo
@@ -14,7 +12,6 @@ services:
         ELASTIC_APM_SERVICE_NAME: jwt-decode
         ELASTIC_APM_SECRET_TOKEN: xbXlfYXBtX3NlY3JldF90b2tlbiAtbgo=
         ELASTIC_APM_ENVIRONMENT: local
-        ELASTIC_APM_APPLICATION_PACKAGES: br.com.gomesar
         SWAGGER_PROTOCOL: http
         SWAGGER_BASE_HOST: localhost
     ports:

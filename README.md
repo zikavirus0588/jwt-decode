@@ -92,102 +92,37 @@ Aproveitando este recurso, foram adicionadas duas novas propriedades: **_isValid
 
 ## 🚀 Começando
 
-Para obter uma cópia deste projeto, basta clonar o projeto do repositório ou baixar o arquivo .zip.
+Nesta seção encontram-se instruções de como baixar, instalar e executar o projeto localmente.
 
 ### 📋 Pré-requisitos
 
-Requisitos necessários para executar o projeto localmente (via IDE) ou por um container no docker.
+- [Git](https://git-scm.com/book/pt-br/v2/Come%C3%A7ando-Instalando-o-Git)
+- [Docker e Docker Compose](https://docs.docker.com/get-docker/)
 
-#### Local (via terminal ou runner na IDE)
+### Clonando o repositório
 
-- Java (17.0.11)
-- Maven (3.9.8)
-- IDE de desenvolvimento (**_opcional_**)
-  - **recomendado:** _IntelliJ IDEA 2024.1.4 (Community Edition)
+Certifique-se de ter as chaves SSH devidamente configuradas em sua máquina e adicionadas à sua conta do GitHub. Caso ainda não tenha feito este procedimento,
+siga o [tutorial oficial](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/about-ssh) para gerar e adicionar chaves SSH.
 
-Caso não tenha instalado estes componentes, siga os seguintes tutoriais para instalação:
+Após realizar o procedimento acima, abra um terminal no diretório onde deseja baixar o projeto e digite:
 
-**_Java e Maven_**: [SDKMan - O gerenciador de versões SDK](https://brunolorencolopes.gitlab.io/blog/pt-br/ferramentas_uteis/SDKMAN.html)
-
-**_Intelijj Community_**: [Intelijj - Download da IDE e configuração](https://www.jetbrains.com/idea/download/?section=linux)
-
-#### Local (via Docker e Docker Compose)
-
-- Docker version 27.1.0
-- Docker Compose version v2.29.0
-
-Caso precise instalar o **docker desktop**, siga o tutorial oficial no site para o seu SO correspondente:
-
-[Guia Oficial - Instalando o docker](https://docs.docker.com/get-docker/)
+```
+git clone git@github.com:zikavirus0588/jwt-decode.git
+```
 
 ### 🔧 Instalação
-
-Guia para instalação da aplicação local, via terminal, runner da IDE ou container do docker.
-
-#### Subindo aplicação local (_via terminal_)
-
-Abra um novo terminal e avance até a pasta raiz do projeto, execute os seguintes comandos:
-
-**Verifique a versão do Java:**
-
-```
-java -version
-```
-
-**Saída do console:**
-
-```
-openjdk version "17.0.11" 2024-04-16 LTS
-OpenJDK Runtime Environment Zulu17.50+19-CA (build 17.0.11+9-LTS)
-OpenJDK 64-Bit Server VM Zulu17.50+19-CA (build 17.0.11+9-LTS, mixed mode, sharing)
-```
-
-**Verifique a versão do Maven:**
-
-```
-mvn -v
-```
-
-**Saída do console:**
-
-```
-Apache Maven 3.9.8
-Java version: 17.0.11, vendor: Azul Systems, Inc., runtime: /home/andre/.sdkman/candidates/java/17.0.11-zulu
-Default locale: pt_BR, platform encoding: UTF-8
-OS name: "linux", version: "6.8.0-39-generic", arch: "amd64", family: "unix"
-
-```
-
-**Instalando e executando a aplicação:**
-
-```
-mvn clean install -e -Plocal -DskipTests spring-boot:run
-```
-
-**Abaixo é possível visualizar a execução da aplicação via terminal:**
-
-![Log de execução via terminal](/docs/application_start.png)
-
-#### Subindo aplicação local (_via runner do Intelijj_)
-
-Com a IDE devidamente instalada e configurada, é possível executar a aplicação via runner do Maven. As configurações de execução
-ficam na raiz do projeto dentro do diretório **_.run_** e são acessíveis em: 
-
-![Maven runner](/docs/maven_runner.png)
-
-Desta forma é possível executar sem ou com a opção de debug, caso opte pelo execução com debug, será necessário executar o outro runner (_**debug**_)
-após a inicialização da aplicação.
+Guia para instalação da aplicação utilizando containers do docker.
 
 #### Subindo aplicação local (_via container do docker_)
 
 Subindo via docker, serão criados os containers do **elasticsearch**, **kibana**, **apm-server**, além do container da aplicação.
 
-Com essa stack nos containers será possível dar mais observabilidade (Logging/Tracing/Monitoring) para a aplicação.
+Com essa stack nos containers será possível dar observabilidade (Logging/Tracing/Monitoring) para a aplicação.
 
-Para iniciar, abra um terminal que tenha capacidade de executar comandos linux, em seguida, navegue até o diretório '**_/local/docker_**' e excute o script '**_build.sh_**'
+Para começar, abra um terminal e navegue até a raiz do projeto. Certifique-se de ter instalado o 'Make' e execute o seguinte comando:
 
 ```
-sh ./build.sh
+make docker-compose-local-up
 ```
 
 Este processo pode ser um pouco longo, devido ao docker ter que realizar o download das imagens e criaçao dos container. 
@@ -202,19 +137,9 @@ Se tudo correr bem, o seguinte log será exibido:
 docker logs -f jwt-decode
 ```
 
-Caso não seja possível executar o script, faça o seguinte procedimento dentro do diretório '/local/docker':
-
-Execute o comando para subir os containers: 
-
-```
-docker compose up -d --build
-```
-
-Quando receber a mensagem '**You may now test your application**' no console, a aplicação estará de pé e apta para testes.
-
 ##### Observbilidade
 
-A parte de observabilidade pode ser vista através da url http://localhost:5601/ e está disponível somente na execução da aplicação via containers.
+Com os containers de pé, é possível acessar a url do kibana através do endereço http://localhost:5601/ e começar a explorar o serviço.
 
 ![Kibana](/docs/kibana.png)
 
@@ -226,14 +151,12 @@ Na parte de transações do tipo **request**, temos o **trace** de uma requisiç
 
 ![Request transaction](/docs/transaction_monitoring.png)
 
-Para descobrir mais sobre o que essa ferramente tem a oferecer, basta realizar testes na aplicação e navegar nos menus do Kibana. 
-
 #### Encerrando a execução dos containers
 
 Para finalizar a execução dos container navegue até o diretório '**/local/docker**' e digite o comando no terminal:
 
 ```
-docker compose down -v
+make docker-compose-local-down
 ```
 
 Será exibido o seguinte **log** no console: 
@@ -243,7 +166,9 @@ Será exibido o seguinte **log** no console:
 ## ⚙️ Executando os testes
 
 Para testar a aplicação, foi criado uma coleção específica que pode ser importada pelo Insomnia. 
-Veja como instalar o software utilizando o site oficial. [Insomnina: Guia oficial de instalação](https://docs.insomnia.rest/insomnia/install)
+
+### Pré-requisitos
+- [Insomnia](https://docs.insomnia.rest/insomnia/install)
 
 ### Criando e importando coleções com o Insomnia
 
@@ -255,21 +180,21 @@ Em seguida, dê um **nome** para sua coleção (**sugestão:** jwt-decode):
 
 ![Nomear a coleção do Insomnia](/docs/insomnia_collection_1.png)
 
-Após a criação da coleção, volte até a home do Insomnina, clique nos '**3 pontinhos**' dentro da sua coleção e selecione '**import**':
+Após a criação da coleção, volte até a home do Insomnia, clique no menu '**...**' dentro da sua coleção e selecione '**import**':
 
 ![Importar a coleção](/docs/insomnia_collection_2.png)
 
-Selecione o arquivo dentro da diretório '**/local/collection**' na **raiz do projeto** e avance até o arquivo ser importado:
+Selecione o arquivo dentro da diretório '**collections**' na **raiz do projeto** e avance até o arquivo ser importado:
 
 ![Buscando coleção no diretório](/docs/insomnia_collection_3.png)
 
-Com a coleção importada, selecione o environmente 'local' para executar os testes:
+Com a coleção importada, selecione o environment '**local**' para executar os testes:
 
 ![Selecionando environment local](/docs/insomnia_collection_4.png)
 
 ### Executando os cenários de teste
 
-O environment 'local' já vem con variáveis de ambiente configuradas para rodar os cenários de JWT válido e inválido.
+O environment '**local**' já vem con variáveis de ambiente configuradas para rodar os cenários de JWT **válido** e **inválido**.
 
 #### Cenários de JWT válido
 
@@ -286,60 +211,106 @@ que o token é inválido e os motivos:
 
 ![Cenário de JWT inválido](/docs/insomnia_collection_6.png)
 
-Explique que eles verificam esses testes e porquê.
-
-```
-Dar exemplos
-```
-
-### ⌨️ E testes de estilo de codificação
-
-Explique que eles verificam esses testes e porquê.
-
-```
-Dar exemplos
-```
 
 ## 📦 Implantação
 
-Adicione notas adicionais sobre como implantar isso em um sistema ativo
+Está seção tem como objetivo criar uma infraestrutura mínima necessária para executar essa aplicação na núvem pública da AWS.
 
-## 🛠️ Construído com
+### Pré-Requisitos
+- Makefile
+  - [Windows](https://earthly.dev/blog/makefiles-on-windows/)
+  - Linux (sudo apt-get install build-essential)
+- [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+- [OpenTofu](https://opentofu.org/docs/intro/install/)
 
-Mencione as ferramentas que você usou para criar seu projeto
+### Diagrama da solução
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - O framework web usado
-* [Maven](https://maven.apache.org/) - Gerente de Dependência
-* [ROME](https://rometools.github.io/rome/) - Usada para gerar RSS
+![Diagrama da solução](/docs/arquitetura.png)
 
-## 🖇️ Colaborando
+### Criando repositório do ECR
 
-Por favor, leia o [COLABORACAO.md](https://gist.github.com/usuario/linkParaInfoSobreContribuicoes) para obter detalhes sobre o nosso código de conduta e o processo para nos enviar pedidos de solicitação.
+Antes de criar toda infraestrutura, é necessário ter um repositório para guardar a imagem docker da aplicação na AWS.
 
-## 📌 Versão
+Antes de dar início à criação, é necessário [configurar o AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html).
 
-Nós usamos [SemVer](http://semver.org/) para controle de versão. Para as versões disponíveis, observe as [tags neste repositório](https://github.com/suas/tags/do/projeto).
+Após este procedimento, [crie um repisório privado do ECR](https://docs.aws.amazon.com/pt_br/AmazonECR/latest/userguide/repository-create.html)
+com o nome **'jwt-decode-des'** na mesma região onde o usuário do AWS CLI foi configurado.
 
-## ✒️ Autores
+Com o usuário configurado e repositório criado,é hora de criar a imagem docker e enviar para o repositório privado do ECR. Para isto, abra um terminal
+na raiz do projeto e execute o comando:
 
-Mencione todos aqueles que ajudaram a levantar o projeto desde o seu início
+```
+make docker-build
+```
+Após a conclusão do comando, faça o envio da imagem diretamente para o repositório:
 
-* **Um desenvolvedor** - *Trabalho Inicial* - [umdesenvolvedor](https://github.com/linkParaPerfil)
-* **Fulano De Tal** - *Documentação* - [fulanodetal](https://github.com/linkParaPerfil)
+```
+make ecr-push
+```
 
-Você também pode ver a lista de todos os [colaboradores](https://github.com/usuario/projeto/colaboradores) que participaram deste projeto.
+Este comando procura o profile default da AWS nas configurações locais, o ID da conta e também a região configurada. Com estes valores, ele realiza
+o login no ECR, cria a tag para a imagem do projeto e faz o envio para o repositório privado do ECR:
 
-## 📄 Licença
+![ECR push](/docs/ecr_push.png)
 
-Este projeto está sob a licença (sua licença) - veja o arquivo [LICENSE.md](https://github.com/usuario/projeto/licenca) para detalhes.
+### Criando infraestrutura
 
-## 🎁 Expressões de gratidão
+Com a imagem do projeto já armazenada no repositório privado do ECR, agora é a hora de criar a infraestrutura restante.
 
-* Conte a outras pessoas sobre este projeto 📢;
-* Convide alguém da equipe para uma cerveja 🍺;
-* Um agradecimento publicamente 🫂;
-* etc.
+Abra um terminal na raiz do projeto e então execute: 
 
+```
+make tf-init
+```
 
----
-⌨️ com ❤️ por [Armstrong Lohãns](https://gist.github.com/lohhans) 😊
+Este comando dá início ao processo para criar a infraestrutura na AWS, mapeando os recursos existentes dentro do diretório **'infrastructure'**.
+
+Proxímo passo é planejar o que será, de fato, criado, digite o comando:
+
+```
+make tf-plan
+```
+
+Com tudo devidamente planejado, é hora de aplicar o procedimento e criar os recursos na AWS, digite no terminal:
+
+```
+make tf-apply
+```
+
+Vai demorar um pouco até que toda infraestrutura seja criada, quando o procedimento finalizar, teremos a mensagem:
+
+![tf-apply](/docs/tf_apply.png)
+
+Copie o valor da variável **'api_endpoint'**, ela será o ponto de entrada para testar a aplicação na AWS.
+
+Para validar a criação da infraestrutura e a aplicação funciona corretamente, cria a url abaixo com o valor copiado e cole em algum navegador:
+
+**ex:** https://6js8bfnwza.execute-api.us-east-2.amazonaws.com/jwt-decode/api/swagger-ui/index.html
+
+Será possível visualizar a documentação da API:
+
+![Documentação API](/docs/documentacao_api.png)
+
+### Destruindo infraestrutura
+
+Para destruir a infraestrutura, removedo todos os recursos criados no passo a passo anterior, abra um terminal na raiz do projeto e execute o comando:
+
+```
+make tf-destroy
+```
+
+Os recursos serão removidos da AWS e teremos o seguinte log ao finalizar: 
+
+![Removendo infraestrutura](/docs/tf_destroy.png)
+
+Por último, para remover a imagem enviada ao repositório privado, acesse o console da AWS e acesse a página referente ao recurso do ECR. Em seguida, procure pela 
+imagem criada e delete do seu repositório privado. 
+
+### Testando aplicação na AWS
+
+Este projeto foi implantado na núvem da AWS, executando o passo a passo descrito acima. Abaixo encontra-se a url do API Gateway da aplicação e o link da documentação:
+
+- URL-BASE: https://6js8bfnwza.execute-api.us-east-2.amazonaws.com/jwt-decode/api
+- Documentação: https://6js8bfnwza.execute-api.us-east-2.amazonaws.com/jwt-decode/api/swagger-ui/index.html
+
+Para realizar testes da aplicação rodando na AWS, copia a URL e crie uma collection nova no insomnia, substituindo a url da coleção local.
