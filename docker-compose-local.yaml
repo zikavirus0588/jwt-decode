@@ -1,0 +1,67 @@
+name: backend
+
+services:
+  jwt-decode:
+    container_name: jwt-decode
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+        TZ: America/Sao_Paulo
+        ELASTIC_APM_SERVER_URL: http://apm-server:8200
+        ELASTIC_APM_SERVICE_NAME: jwt-decode
+        ELASTIC_APM_SECRET_TOKEN: xbXlfYXBtX3NlY3JldF90b2tlbiAtbgo=
+        ELASTIC_APM_ENVIRONMENT: local
+        SWAGGER_PROTOCOL: http
+        SWAGGER_BASE_HOST: localhost
+    ports:
+      - "8001:8001"
+    depends_on:
+      - apm-server
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.7.1
+    container_name: elastisearch
+    environment:
+      - "cluster.routing.allocation.disk.threshold_enabled=false"
+      - "discovery.type=single-node"
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - 9200:9200
+    healthcheck:
+      test: [ 'CMD', 'curl', '-f', 'http://localhost:9200' ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.7.1
+    container_name: kibana
+    environment:
+      - "SERVER_HOST=0.0.0.0"
+    ports:
+      - 5601:5601
+    healthcheck:
+      test: [ 'CMD', 'curl', '-f', 'http://localhost:5601' ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+  apm-server:
+    image: docker.elastic.co/apm/apm-server:7.7.1
+    container_name: apm-server
+    ports:
+      - 8200:8200
+    environment:
+      - output.elasticsearch.hosts=['http://elasticsearch:9200']
+      - apm-server.host="0.0.0.0:8200"
+      - apm-server.secret_token="xbXlfYXBtX3NlY3JldF90b2tlbiAtbgo="
+      - setup.kibana.host="kibana:5601"
+      - setup.template.enabled=true
+      - logging.to_files=false
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      kibana:
+        condition: service_healthy

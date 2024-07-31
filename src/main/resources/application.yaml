@@ -1,0 +1,46 @@
+im:
+  aop:
+    loggers:
+      enabled: true
+      exited-abnormally-level: ERROR
+      exited-abnormally-message: "o método [{method}] executou e lançou a exceção [{exception}]"
+spring:
+  application:
+    name: @project.name@
+  banner:
+    location: classpath:banner.txt
+  profiles:
+    active: '@activatedProperties@'
+info:
+  app:
+    name: ${spring.application.name}
+    description: @project.description@
+    version: @project.version@
+server:
+  port: '8001'
+  servlet:
+    context-path: /${spring.application.name}/api
+swagger:
+  protocol: http
+  base:
+    url: ${swagger.base.host}:${server.port}
+springdoc:
+  swagger-ui:
+    operationSorter: method
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-detail: always
+      probes:
+        enabled: 'true'
+      group:
+        readiness:
+          include: readinessState
+        liveness:
+          include: livenessState
+      server:
+        port: ${server.port}

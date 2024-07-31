@@ -1,0 +1,24 @@
+FROM maven:3.8.5-openjdk-17-slim AS build
+
+WORKDIR /app
+
+COPY pom.xml .
+COPY src ./src
+
+RUN mvn clean package -e -Plocal -DskipTests
+
+FROM azul/zulu-openjdk-alpine:17-jre
+
+WORKDIR /app
+
+ADD https://search.maven.org/remotecontent?filepath=co/elastic/apm/elastic-apm-agent/1.37.0/elastic-apm-agent-1.37.0.jar /app/elastic-apm-agent.jar
+
+COPY --from=build /app/target/*.jar app.jar
+
+COPY entrypoint-local.sh entrypoint-local.sh
+
+RUN chmod 755 entrypoint-local.sh
+
+EXPOSE 8001
+
+ENTRYPOINT ./entrypoint-local.sh

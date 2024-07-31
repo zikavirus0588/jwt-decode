@@ -1,0 +1,17 @@
+swagger:
+  protocol: http
+  base:
+    host: localhost
+elastic:
+  apm:
+    server:
+      urls: 'http://apm-server/8200'
+    service:
+      name: 'jwt-decode'
+    secret:
+      token: 'bXlfYXBtX3NlY3JldF90b2tlbiAtbgo='
+    environment: 'local'
+    log:
+      sending: 'true'
+    capture:
+      body: 'all'
