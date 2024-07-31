@@ -1,6 +1,6 @@
 # Jwt-Decode
 
-Este projeto visa decodificar um 'token' JWT (extraindo o cabeçalho e corpo), para determinar se o claim
+Este projeto visa decodificar um JWT (extraindo o cabeçalho e corpo), para determinar se o claim
 é válido ou não, de acordo com regras que veremos a seguir.
 
 ## 📝 Sobre o Projeto
@@ -33,20 +33,20 @@ Pacote de classes comunmente utilizadas por outros pacotes da aplicação.
 
 ### Regras
 
-Abaixo serão listadas algumas regras que moldam o comportamento da aplicação e a solução proposta para que a mesma seja atendida.
+Abaixo estão listadas as regras que moldam o comportamento da aplicação e a solução proposta para que a mesma seja atendida.
 
 #### Receber o token JWT por parâmetros
 
-O 'token' JWT será recebido na aplicação através heeader **_Authorizaton_**, cujo **valor** deve ter o seguinte formato: _Bearer <token_jwt>_.
+O '**token**' JWT será recebido na aplicação através heeader **_Authorizaton_**, cujo **valor** deve ter o seguinte formato: _Bearer <token_jwt>_.
 Este header deverá ser enviado no **endpoint**: _/api/v1/tokens/decode_ através do método **POST**.
 
 #### Deve ser um JWT válido
 
-Para ser um JWT válido, o 'token' deve ser composto de um header, payload e signature. Na ausência de qualquer um destes componentes, assume-se que o 'token' é inválido.
+Para ser um JWT válido, o '**token**' deve ser composto de um header, payload e signature. Na ausência de qualquer um destes componentes, assume-se que o 'token' é inválido.
 
-A validação destes 3 componentes é feita na classe **JwtService** através do método **_decode_** que recebe parâmetro o token JWT. 
+A validação destes 3 componentes é feita na classe **JwtService** através do método **_decode_** que recebe parâmetro o 'token' JWT. 
 
-A decodificação é realizada sem a nessecidade de saber a secret utilizada pelo servidor na hora da geração do 'token', caso o mesmo tenha um formato inválido, uma exceção será lançada.
+A decodificação é realizada sem o conhecimento da secret utilizada pelo servidor na hora da geração do 'token', caso o mesmo tenha um formato inválido, uma exceção será lançada.
 
 #### Deve conter apenas 3 claims (Name, Role e Seed)
 
@@ -98,6 +98,9 @@ Nesta seção encontram-se instruções de como baixar, instalar e executar o pr
 
 - [Git](https://git-scm.com/book/pt-br/v2/Come%C3%A7ando-Instalando-o-Git)
 - [Docker e Docker Compose](https://docs.docker.com/get-docker/)
+- Makefile
+  - [Windows](https://earthly.dev/blog/makefiles-on-windows/)
+  - Linux (sudo apt-get install build-essential)
 
 ### Clonando o repositório
 
@@ -153,7 +156,7 @@ Na parte de transações do tipo **request**, temos o **trace** de uma requisiç
 
 #### Encerrando a execução dos containers
 
-Para finalizar a execução dos container navegue até o diretório '**/local/docker**' e digite o comando no terminal:
+Para finalizar a execução dos container navegue até o diretório raiz do projeto e digite o comando no terminal:
 
 ```
 make docker-compose-local-down
@@ -184,7 +187,7 @@ Após a criação da coleção, volte até a home do Insomnia, clique no menu '*
 
 ![Importar a coleção](/docs/insomnia_collection_2.png)
 
-Selecione o arquivo dentro da diretório '**collections**' na **raiz do projeto** e avance até o arquivo ser importado:
+Selecione o arquivo dentro do diretório '**collections**' na **raiz do projeto** e avance até o arquivo ser importado:
 
 ![Buscando coleção no diretório](/docs/insomnia_collection_3.png)
 
@@ -198,8 +201,8 @@ O environment '**local**' já vem con variáveis de ambiente configuradas para r
 
 #### Cenários de JWT válido
 
-Dentro da pasta '**valid**' é possível encontrar os cenários onde o token JWT informado é válido.
-Todos os cenários desta pasta retornam o código de resposta '**200 OK**' e response body com objeto '**data**' informando que o token é válido:
+Dentro da pasta '**valid**' é possível encontrar os cenários onde o 'token' JWT informado é válido.
+Todos os cenários desta pasta retornam o código de resposta '**200 OK**' e response body com objeto '**data**' informando que o 'token' é válido:
 
 ![Cenário de token JWT válido](/docs/insomnia_collection_5.png)
 
@@ -211,15 +214,11 @@ que o token é inválido e os motivos:
 
 ![Cenário de JWT inválido](/docs/insomnia_collection_6.png)
 
-
 ## 📦 Implantação
 
-Está seção tem como objetivo criar uma infraestrutura mínima necessária para executar essa aplicação na núvem pública da AWS.
+Está seção visa criar uma infraestrutura mínima necessária para executar essa aplicação na núvem pública da AWS.
 
 ### Pré-Requisitos
-- Makefile
-  - [Windows](https://earthly.dev/blog/makefiles-on-windows/)
-  - Linux (sudo apt-get install build-essential)
 - [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 - [OpenTofu](https://opentofu.org/docs/intro/install/)
 
@@ -236,7 +235,7 @@ Antes de dar início à criação, é necessário [configurar o AWS CLI](https:/
 Após este procedimento, [crie um repisório privado do ECR](https://docs.aws.amazon.com/pt_br/AmazonECR/latest/userguide/repository-create.html)
 com o nome **'jwt-decode-des'** na mesma região onde o usuário do AWS CLI foi configurado.
 
-Com o usuário configurado e repositório criado,é hora de criar a imagem docker e enviar para o repositório privado do ECR. Para isto, abra um terminal
+Com o usuário configurado e repositório criado é hora de criar a imagem docker e enviar para o repositório privado do ECR. Para isto, abra um terminal
 na raiz do projeto e execute o comando:
 
 ```
@@ -248,7 +247,7 @@ Após a conclusão do comando, faça o envio da imagem diretamente para o reposi
 make ecr-push
 ```
 
-Este comando procura o profile default da AWS nas configurações locais, o ID da conta e também a região configurada. Com estes valores, ele realiza
+Este comando procura o profile 'default' da AWS nas configurações locais, o ID da conta e também a região configurada. Com estes valores, ele realiza
 o login no ECR, cria a tag para a imagem do projeto e faz o envio para o repositório privado do ECR:
 
 ![ECR push](/docs/ecr_push.png)
